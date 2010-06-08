@@ -1,0 +1,7 @@
+= All
+Name: libvorbis
+Description: Vorbis audio decoding library
+Pkgs: vorbis
+Includes: vorbis/vorbisfile.h
+Libs: -lvorbisfile
+SourcePath: .
