@@ -12,10 +12,10 @@ VorbisInfo: cover from vorbis_info {
 OggInt64: cover from ogg_int64_t
 
 OggCallbacks: cover from ov_callbacks {
-    read_func : Func (ptr: Pointer, size: SizeT, nmemb: SizeT, datasource: Pointer) -> SizeT
-    seek_func : Func (datasource: Pointer, offset: OggInt64, whence: Int) -> Int
-    close_func: Func (datasource: Pointer) -> Int
-    tell_func : Func (datasource: Pointer) -> Long
+    read_func : Func (Pointer, SizeT, SizeT, Pointer) -> SizeT
+    seek_func : Func (Pointer, OggInt64, Int) -> Int
+    close_func: Func (Pointer) -> Int
+    tell_func : Func (Pointer) -> Long
 }
 
 // functions
