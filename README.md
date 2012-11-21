@@ -1,4 +1,4 @@
-## vorbis-ooc
+## ooc-vorbis
 
 libvorbisfile bindings for ooc
 
