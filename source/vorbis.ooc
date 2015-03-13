@@ -52,7 +52,7 @@ ov_open : extern func (f: FStream, vf: _OggFile*, initial: Pointer, ibytes: Long
 ov_fopen : extern func (path: CString, vf: _OggFile*) -> OggResultCode
 ov_open_callbacks: extern func (datasource: Pointer, vf: _OggFile*, initial: Pointer, ibytes: Long, callbacks: OggCallbacks) -> OggResultCode
 
-ov_time_seek: extern func (vf: _OggFile*, time: Double)
+ov_time_seek: extern func (vf: _OggFile*, time: Double) -> OggResultCode
 ov_time_total: extern func (vf: _OggFile*, bitstream: Int) -> Double
 
 ov_info : extern func (vf: _OggFile*, link: Int) -> VorbisInfo*
