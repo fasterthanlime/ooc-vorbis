@@ -10,27 +10,27 @@ VorbisInfo: cover from vorbis_info {
 }
 
 OggResultCode: enum {
-  EREAD: extern(OV_EREAD)
-  ENOTVORBIS: extern(OV_ENOTVORBIS)
-  EVERSION: extern(OV_EVERSION)
-  EBADHEADER: extern(OV_EBADHEADER)
-  EFAULT: extern(OV_EFAULT)
-  HOLE: extern(OV_HOLE)
-  EBADLINK: extern(OV_EBADLINK)
-  EINVAL: extern(OV_EINVAL)
+  read: extern(OV_EREAD)
+  notVorbis: extern(OV_ENOTVORBIS)
+  _version: extern(OV_EVERSION)
+  badHeader: extern(OV_EBADHEADER)
+  fault: extern(OV_EFAULT)
+  hole: extern(OV_HOLE)
+  badLink: extern(OV_EBADLINK)
+  inval: extern(OV_EINVAL)
 
   toString: func -> String {
     match this {
-      case EREAD => "A read from media returned an error."
-      case ENOTVORBIS => "Bitstream does not contain any Vorbis data."
-      case EVERSION => "Vorbis version mismatch."
-      case EBADHEADER => "Invalid Vorbis bitstream header."
-      case EFAULT => "Internal logic fault; indicates a bug or heap/stack corruption."
-      case HOLE => "There was an interruption in the data (one of: garbage \n" +
+      case read => "A read from media returned an error."
+      case notVorbis => "Bitstream does not contain any Vorbis data."
+      case _version => "Vorbis version mismatch."
+      case badHeader => "Invalid Vorbis bitstream header."
+      case fault => "Internal logic fault; indicates a bug or heap/stack corruption."
+      case hole => "There was an interruption in the data (one of: garbage \n" +
         "between pages, loss of sync followed by recapture, or a corrupt page)"
-      case EBADLINK => "An invalid stream section was supplied to libvorbisfile, " +
+      case badLink => "An invalid stream section was supplied to libvorbisfile, " +
         " or the requested link is corrupt."
-      case EINVAL => "The initial file headers couldn't be read or are corrupt, " +
+      case inval => "The initial file headers couldn't be read or are corrupt, " +
         " or that the initial open call for vf failed."
       case => "Unknown error"
     }
@@ -51,6 +51,7 @@ OggCallbacks: cover from ov_callbacks {
 ov_open : extern func (f: FStream, vf: _OggFile*, initial: Pointer, ibytes: Long) -> OggResultCode
 ov_fopen : extern func (path: CString, vf: _OggFile*) -> OggResultCode
 ov_open_callbacks: extern func (datasource: Pointer, vf: _OggFile*, initial: Pointer, ibytes: Long, callbacks: OggCallbacks) -> OggResultCode
+ov_time_total: extern func (vf: _OggFile*, bistream: Int) -> Double
 
 ov_info : extern func (vf: _OggFile*, link: Int) -> VorbisInfo*
 ov_read : extern func (vf: _OggFile*, buffer: Pointer, length: Int, bigendianp: Int, word: Int, signedness: Int, bitstream: Int*) -> Int
@@ -75,7 +76,9 @@ OggSignedness: enum from Int {
 
 OggException: class extends Exception {
 
-  init: super func
+    init: func (msg: String) {
+        super(msg)
+    }
 
 }
 
@@ -104,6 +107,10 @@ OggFile: class {
   setEndianness: func (=endianness)
   setWordSize: func (=wordSize)
   setSignedness: func (=signedness)
+
+  timeTotal: func -> Double {
+      ov_time_total(_file&, -1)
+  }
 
   clear: func {
     ov_clear(_file&)
