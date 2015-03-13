@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/nddrylliog/ooc-vorbis.png?branch=master)](https://travis-ci.org/nddrylliog/ooc-vorbis)
+[![Build Status](https://secure.travis-ci.org/fasterthanlime/ooc-vorbis.png?branch=master)](https://travis-ci.org/fasterthanlime/ooc-vorbis)
 
 ## ooc-vorbis
 
