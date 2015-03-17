@@ -16,4 +16,8 @@ either a `FILE*` pointer, or a custom set of read/seek/close/tell callbacks.
 
   * xiph vorbis: http://xiph.org/vorbis/
   * libvorbis: http://downloads.xiph.org/releases/vorbis/
+
+### License
+
+libvorbis is distributed under a BSD license, and so is ooc-vorbis.
   
