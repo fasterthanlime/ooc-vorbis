@@ -18,6 +18,7 @@ OggResultCode: enum {
   hole: extern(OV_HOLE)
   badLink: extern(OV_EBADLINK)
   inval: extern(OV_EINVAL)
+  noSeek: extern(OV_ENOSEEK)
 
   toString: func -> String {
     match this {
@@ -26,12 +27,13 @@ OggResultCode: enum {
       case _version => "Vorbis version mismatch."
       case badHeader => "Invalid Vorbis bitstream header."
       case fault => "Internal logic fault; indicates a bug or heap/stack corruption."
-      case hole => "There was an interruption in the data (one of: garbage \n" +
+      case hole => "There was an interruption in the data (one of: garbage " +
         "between pages, loss of sync followed by recapture, or a corrupt page)"
       case badLink => "An invalid stream section was supplied to libvorbisfile, " +
-        " or the requested link is corrupt."
+        "or the requested link is corrupt."
       case inval => "The initial file headers couldn't be read or are corrupt, " +
-        " or that the initial open call for vf failed."
+        "or that the initial open call for vf failed."
+      case noSeek => "Bitstream is not seekable."
       case => "Unknown error"
     }
   }
@@ -78,9 +80,9 @@ OggSignedness: enum from Int {
 
 OggException: class extends Exception {
 
-    init: func (msg: String) {
-        super(msg)
-    }
+  init: func (msg: String) {
+    super(msg)
+  }
 
 }
 
@@ -110,8 +112,8 @@ OggFile: class {
   setWordSize: func (=wordSize)
   setSignedness: func (=signedness)
 
-  timeSeek: func (time:Double) -> OggResultCode {
-    ov_time_seek(_file&, time)
+  timeSeek: func (time:Double) {
+    _errorHandling(ov_time_seek(_file&, time))
   }
 
   timeTotal: func -> Double {
