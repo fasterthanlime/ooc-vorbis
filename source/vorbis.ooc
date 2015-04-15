@@ -110,8 +110,12 @@ OggFile: class {
   setWordSize: func (=wordSize)
   setSignedness: func (=signedness)
 
+  timeSeek: func (time:Double) -> OggResultCode {
+    ov_time_seek(_file&, time)
+  }
+
   timeTotal: func -> Double {
-      ov_time_total(_file&, -1)
+    ov_time_total(_file&, -1)
   }
 
   clear: func {
