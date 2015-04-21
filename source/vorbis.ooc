@@ -56,6 +56,7 @@ ov_open_callbacks: extern func (datasource: Pointer, vf: _OggFile*, initial: Poi
 
 ov_time_seek: extern func (vf: _OggFile*, time: Double) -> OggResultCode
 ov_time_total: extern func (vf: _OggFile*, bitstream: Int) -> Double
+ov_time_tell: extern func (vf: _OggFile*) -> Double
 
 ov_info : extern func (vf: _OggFile*, link: Int) -> VorbisInfo*
 ov_read : extern func (vf: _OggFile*, buffer: Pointer, length: Int, bigendianp: Int, word: Int, signedness: Int, bitstream: Int*) -> Int
@@ -114,6 +115,10 @@ OggFile: class {
 
   timeSeek: func (time:Double) {
     _errorHandling(ov_time_seek(_file&, time))
+  }
+  
+  time: func -> Double {
+    ov_time_tell(_file&)
   }
 
   timeTotal: func -> Double {
